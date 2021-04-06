@@ -6,3 +6,5 @@ To install this connector you will need to build it then copy the output dlls **
 
 You can build without Visual Studio using MSBuild via ``MSBuild.exe /t:Build /p:Configuration=Release``
 
+![Connector Screenshot](https://github.com/Simego-Ltd/datasync-winscp-connector/blob/main/screenshot-1.png "Connector Screenshot")
+
