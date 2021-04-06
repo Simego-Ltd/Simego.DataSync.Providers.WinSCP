@@ -152,7 +152,7 @@ namespace Simego.DataSync.Providers.WinSCP
         private void GetFiles(Session session, RemoteDirectoryInfo directoryInfo, bool recuirse, DataTableStore dt, DataSchemaMapping mapping, IList<DataSchemaItem> columns, DateTime? modifiedSince)
         {
             if (directoryInfo == null) return;
-            if (!dt.ContinueLoad(0)) return;
+            if (dt.ContinueLoad != null && !dt.ContinueLoad(0)) return;
 
             foreach (RemoteFileInfo file in directoryInfo.Files)
             {
