@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Simego.DataSync.Providers.WinSCP.TypeEditors
@@ -16,9 +15,7 @@ namespace Simego.DataSync.Providers.WinSCP.TypeEditors
         }
 
         private void Setup()
-        {
-            UIFontHelper.SetFont(this);
-
+        {                     
             MinimizeBox = false;
             MaximizeBox = false;
             ShowInTaskbar = false;

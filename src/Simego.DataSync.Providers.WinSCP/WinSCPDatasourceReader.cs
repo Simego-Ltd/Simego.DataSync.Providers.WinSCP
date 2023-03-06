@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.Drawing.Design;
 using System.Globalization;
 using System.Windows.Forms;
@@ -455,18 +456,22 @@ namespace Simego.DataSync.Providers.WinSCP
 
         #region IDataSourceSetup - Render Custom Configuration UI
 
-        public void DisplayConfigurationUI(Control parent)
+        public void DisplayConfigurationUI(IntPtr parent)
         {
+            var parentControl = Control.FromHandle(parent);
+            
             if (_connectionIf == null)
             {
-                _connectionIf = new ConnectionInterface() {
-                    Font = parent.Font,
-                    Dock = DockStyle.Fill,                    
-                };
+                _connectionIf = new ConnectionInterface();
                 _connectionIf.PropertyGrid.SelectedObject = new ConnectionProperties(this);
             }
-            
-            parent.Controls.Add(_connectionIf);
+
+            _connectionIf.Font = parentControl.Font;
+            _connectionIf.Size = new Size(parentControl.Width, parentControl.Height);
+            _connectionIf.Location = new Point(0, 0);
+            _connectionIf.Dock = System.Windows.Forms.DockStyle.Fill;
+
+            parentControl.Controls.Add(_connectionIf);
         }
 
         public bool Validate() => true;
