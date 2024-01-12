@@ -67,12 +67,16 @@ namespace Simego.DataSync.Providers.WinSCP
         [Category("Connection.SFTP"), Description("SSH Private Key Path.")]
         public string SshPrivateKeyPath { get; set; }
 
+        [Category("Writer.Options"), Description("Preserve Timestamp on write.")]
+        public bool PreserveTimestamp { get; set; }
+        
         public WinSCPDatasourceReader()
         {
             RecuirseFolders = true;
             WebFriendlyPaths = true;
             ModifiedSinceUTC = null;
-            FilterPattern = "*.*";            
+            FilterPattern = "*.*";
+            PreserveTimestamp = true;
         }
         
         public override DataTableStore GetDataTable(DataTableStore dt)
@@ -140,7 +144,7 @@ namespace Simego.DataSync.Providers.WinSCP
             }
             else if (Protocol == WinSCPProtocol.SFtp)
             {
-                sessionOptions.GiveUpSecurityAndAcceptAnySshHostKey = AcceptAnySshHostKey;
+                sessionOptions.SshHostKeyPolicy = AcceptAnySshHostKey ? SshHostKeyPolicy.GiveUpSecurityAndAcceptAny : SshHostKeyPolicy.Check; 
                 sessionOptions.SshHostKeyFingerprint = string.IsNullOrEmpty(SshHostKeyFingerprint) ? null : SshHostKeyFingerprint;                
                 sessionOptions.PrivateKeyPassphrase = string.IsNullOrEmpty(SshPrivateKeyPassphrase) ? null : SecurityService.DecyptValue(SshPrivateKeyPassphrase);
                 sessionOptions.SshPrivateKeyPath = string.IsNullOrEmpty(SshPrivateKeyPath) ? null : SshPrivateKeyPath;
@@ -285,7 +289,8 @@ namespace Simego.DataSync.Providers.WinSCP
                 new ProviderParameter("AcceptAnySshHostKey", AcceptAnySshHostKey.ToString(CultureInfo.InvariantCulture), GetConfigKey("AcceptAnySshHostKey")),
                 new ProviderParameter("SshHostKeyFingerprint", SshHostKeyFingerprint, GetConfigKey("SshHostKeyFingerprint")),
                 new ProviderParameter("SshPrivateKeyPassphrase", SecurityService.EncryptValue(SshPrivateKeyPassphrase), GetConfigKey("SshPrivateKeyPassphrase")),
-                new ProviderParameter("SshPrivateKeyPath", SshPrivateKeyPath, GetConfigKey("SshPrivateKeyPath"))
+                new ProviderParameter("SshPrivateKeyPath", SshPrivateKeyPath, GetConfigKey("SshPrivateKeyPath")),
+                new ProviderParameter("PreserveTimestamp", PreserveTimestamp.ToString(), GetConfigKey("PreserveTimestamp"))
             };
         }
 
@@ -397,6 +402,14 @@ namespace Simego.DataSync.Providers.WinSCP
                     case "SshPrivateKeyPath":
                         {
                             SshPrivateKeyPath = p.Value;
+                            break;
+                        }
+                    case "PreserveTimestamp":
+                        {
+                            if (bool.TryParse(p.Value, out bool val))
+                            {
+                                PreserveTimestamp = val;
+                            }
                             break;
                         }
                     default:
