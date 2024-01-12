@@ -56,6 +56,9 @@ namespace Simego.DataSync.Providers.WinSCP
 
         [Category("Connection.SFTP"), Description("SSH Private Key Path.")]
         public string SshPrivateKeyPath { get => _reader.SshPrivateKeyPath; set => _reader.SshPrivateKeyPath = value; }
+        
+        [Category("Writer.Options"), Description("Preserve Timestamp on write.")]
+        public bool PreserveTimestamp { get => _reader.PreserveTimestamp; set => _reader.PreserveTimestamp = value; }
 
         public ConnectionProperties(WinSCPDatasourceReader reader)
         {
