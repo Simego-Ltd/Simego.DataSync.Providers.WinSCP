@@ -1,5 +1,5 @@
 set p=Simego.DataSync.Providers.WinSCP
-"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\msbuild.exe" /t:Build /p:Configuration=Release /p:NoWarn=1591
+"C:\Program Files\Microsoft Visual Studio\18\Enterprise\MSBuild\Current\Bin\msbuild.exe" /t:Build /p:Configuration=Release /p:NoWarn=1591
 rmdir ..\dist\ /S /Q
 mkdir ..\dist\files\%p%
 xcopy ..\src\%p%\bin\Release\net48\*.* ..\dist\files\%p%\*.* /y
