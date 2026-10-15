@@ -50,6 +50,9 @@ namespace Simego.DataSync.Providers.WinSCP
         [Category("Filter"), Description("Return the Path as Web Friendly with Forward Slashes.")]
         public bool WebFriendlyPaths { get; set; }
 
+        [Category("Transfer"), Description("Preserve the source file modified time on the remote server. Disable if the server rejects setting timestamps (SETSTAT permission denied).")]
+        public bool PreserveTimestamp { get; set; }
+
         [Category("Connection.FTP"), Description("The FTP Secure mode.")]
         public WinSCPFtpSecure FtpSecure { get; set; }
         
@@ -72,6 +75,7 @@ namespace Simego.DataSync.Providers.WinSCP
         {
             RecuirseFolders = true;
             WebFriendlyPaths = true;
+            PreserveTimestamp = true;
             ModifiedSinceUTC = null;
             FilterPattern = "*.*";            
         }
@@ -276,9 +280,10 @@ namespace Simego.DataSync.Providers.WinSCP
                 new ProviderParameter("ModifiedSinceUTC", ModifiedSinceUTC, GetConfigKey("ModifiedSinceUTC")),
                 new ProviderParameter("RecuirseFolders", RecuirseFolders.ToString(), GetConfigKey("RecuirseFolders")),
                 new ProviderParameter("WebFriendlyPaths", WebFriendlyPaths.ToString(), GetConfigKey("WebFriendlyPaths")),
+                new ProviderParameter("PreserveTimestamp", PreserveTimestamp.ToString(), GetConfigKey("PreserveTimestamp")),
                 new ProviderParameter("Protocol", Protocol.ToString(), GetConfigKey("Protocol")),
                 new ProviderParameter("HostName", HostName, GetConfigKey("HostName")),
-                new ProviderParameter("PortNumber", PortNumber.ToString(CultureInfo.InvariantCulture), GetConfigKey("HostName")),
+                new ProviderParameter("PortNumber", PortNumber.ToString(CultureInfo.InvariantCulture), GetConfigKey("PortNumber")),
                 new ProviderParameter("UserName", UserName, GetConfigKey("UserName")),
                 new ProviderParameter("Password", SecurityService.EncryptValue(Password), GetConfigKey("Password")),
                 new ProviderParameter("FtpSecure", FtpSecure.ToString(), GetConfigKey("FtpSecure")),
@@ -352,6 +357,14 @@ namespace Simego.DataSync.Providers.WinSCP
                             if (bool.TryParse(p.Value, out bool val))
                             {
                                 WebFriendlyPaths = val;
+                            }
+                            break;
+                        }
+                    case "PreserveTimestamp":
+                        {
+                            if (bool.TryParse(p.Value, out bool val))
+                            {
+                                PreserveTimestamp = val;
                             }
                             break;
                         }

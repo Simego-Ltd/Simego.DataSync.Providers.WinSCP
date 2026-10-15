@@ -39,6 +39,9 @@ namespace Simego.DataSync.Providers.WinSCP
         [Category("Filter"), Description("Return the Path as Web Friendly with Forward Slashes.")]
         public bool WebFriendlyPaths { get => _reader.WebFriendlyPaths; set => _reader.WebFriendlyPaths = value; }
 
+        [Category("Transfer"), Description("Preserve the source file modified time on the remote server. Disable if the server rejects setting timestamps (SETSTAT permission denied).")]
+        public bool PreserveTimestamp { get => _reader.PreserveTimestamp; set => _reader.PreserveTimestamp = value; }
+
         [Category("Connection.FTP"), Description("The FTP Secure mode.")]
         public WinSCPFtpSecure FtpSecure { get => _reader.FtpSecure; set => _reader.FtpSecure = value; }
 

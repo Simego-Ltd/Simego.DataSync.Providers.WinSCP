@@ -49,7 +49,7 @@ namespace Simego.DataSync.Providers.WinSCP
 
                                 CreateDirectory(Utility.EnsureWebPath(System.IO.Path.GetDirectoryName(fileName)));
                                 
-                                Session.PutFiles(tmpFile, fileName, false, new TransferOptions { PreserveTimestamp = true, TransferMode = TransferMode.Binary }).Check();
+                                Session.PutFiles(tmpFile, fileName, false, new TransferOptions { PreserveTimestamp = DataSourceReader.PreserveTimestamp, TransferMode = TransferMode.Binary }).Check();
                             }
                             catch(Exception e)
                             {
@@ -69,7 +69,7 @@ namespace Simego.DataSync.Providers.WinSCP
                         ClearSyncStatus(item); //Clear the Sync Flag on Processed Rows
 
                     }
-                    catch (SystemException e)
+                    catch (Exception e)
                     {
                         HandleError(status, e);
                     }
@@ -117,7 +117,7 @@ namespace Simego.DataSync.Providers.WinSCP
                                     System.IO.File.SetLastWriteTimeUtc(tmpFile, DataSchemaTypeConverter.ConvertTo<DateTime>(value).ToUniversalTime());
                                 }
 
-                                Session.PutFiles(tmpFile, filename, false, new TransferOptions { OverwriteMode = OverwriteMode.Overwrite, PreserveTimestamp = true, TransferMode = TransferMode.Binary }).Check();
+                                Session.PutFiles(tmpFile, filename, false, new TransferOptions { OverwriteMode = OverwriteMode.Overwrite, PreserveTimestamp = DataSourceReader.PreserveTimestamp, TransferMode = TransferMode.Binary }).Check();
 
                             }
                             catch (Exception e)
@@ -137,7 +137,7 @@ namespace Simego.DataSync.Providers.WinSCP
 
                         ClearSyncStatus(item); //Clear the Sync Flag on Processed Rows
                     }
-                    catch (SystemException e)
+                    catch (Exception e)
                     {
                         HandleError(status, e);
                     }
@@ -184,7 +184,7 @@ namespace Simego.DataSync.Providers.WinSCP
 
                         ClearSyncStatus(item); //Clear the Sync Flag on Processed Rows
                     }
-                    catch (SystemException e)
+                    catch (Exception e)
                     {
                         HandleError(status, e);
                     }
